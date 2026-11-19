@@ -5,6 +5,12 @@ const TOKEN = process.env.GITHUB_TOKEN;
 const CACHE_PATH = "data/commit-languages.json";
 const OTHER_THRESHOLD = 0.01;
 const EXCLUDED_PATH = /(^|\/)(vendor|node_modules|dist|renv|fixtures|_snaps|__snapshots__)\/|(\.lock|lock\.json|-lock\.(json|ya?ml))$/;
+const EXCLUDED_NAME = /(^|\/)(\.[^/]+|Dockerfile|Makefile|LICENSE|NEWS|CHANGELOG|CITATION)$/;
+const EXCLUDED_EXTENSIONS = new Set([
+  "md", "markdown", "txt", "rst", "csv", "tsv",
+  "json", "yml", "yaml", "toml", "ini", "cfg", "conf", "env", "xml",
+  "ron", "snap", "rproj", "uid", "tscn", "svg", "in", "configure", "godot", "description", "namespace",
+]);
 
 const EXTENSIONS = {
   r: "R",
@@ -29,10 +35,8 @@ const EXTENSIONS = {
   hpp: "C++",
   css: "CSS",
   html: "HTML",
-  md: "Markdown",
-  json: "JSON",
-  yml: "YAML",
-  yaml: "YAML",
+  gd: "GDScript",
+  gdshader: "GDShader",
   sql: "SQL",
   ps1: "PowerShell",
   bat: "Batchfile",
@@ -134,16 +138,13 @@ function chunk(items, size) {
   );
 }
 
-function languageFor(filename) {
-  const extension = filename.split(".").at(-1).toLowerCase();
-  return EXTENSIONS[extension] ?? "Other";
-}
-
 function linesByLanguage(files) {
   const languages = new Map();
   for (const { filename, additions, deletions } of files) {
-    if (EXCLUDED_PATH.test(filename)) continue;
-    const language = languageFor(filename);
+    if (EXCLUDED_PATH.test(filename) || EXCLUDED_NAME.test(filename)) continue;
+    const extension = filename.split(".").at(-1).toLowerCase();
+    if (EXCLUDED_EXTENSIONS.has(extension)) continue;
+    const language = EXTENSIONS[extension] ?? "Other";
     const lines = languages.get(language) ?? 0;
     languages.set(language, lines + additions + deletions);
   }
