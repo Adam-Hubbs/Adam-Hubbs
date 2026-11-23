@@ -9,7 +9,7 @@ Analyst at Y2 Analytics, Salt Lake City, UT. I build R tools for survey research
 ![Followers](https://img.shields.io/github/followers/Adam-Hubbs?style=flat-square&label=followers&color=4C8DFF)
 <!-- stats:start -->
 ![public repos](https://img.shields.io/badge/public%20repos-16-2BB3A3?style=flat-square)
-![contributions (last year)](https://img.shields.io/badge/contributions%20(last%20year)-1370-F08A4B?style=flat-square)
+![contributions (last year)](https://img.shields.io/badge/contributions%20(last%20year)-1438-F08A4B?style=flat-square)
 <!-- stats:end -->
 
 
